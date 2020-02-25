@@ -29,10 +29,29 @@ class Board
     end
 
     locations << start_loc
-    locations.reverse
+    print_path locations.reverse
+  end
+
+  def print_path(locations)
+    puts "You made it in #{locations.length} moves! Here is your path"
+    locations.each { |loc| puts loc.inspect }
+  end
+
+  #creates methods for get_starting_pos and get_ending_pos that prompt user for input
+  ["starting", "ending"].each do |name|
+    define_method("get_#{name}_pos") do 
+      puts "Enter #{name} position x, y where x and y are integers between 0-7"
+      pos = gets.chomp
+      until pos =~ /^[0-7], *[0-7]$/
+        puts "Please only enter: x, y where x and y are integers between 0-7"
+        pos = gets.chomp
+      end
+      pos.strip.split(",").map(&:to_i)
+    end
   end
 end
 
 game = Board.new
-# puts game.board.inspect
-puts game.knight_moves([0,0],[7,3]).inspect
+start_pos = game.get_starting_pos
+end_pos = game.get_ending_pos
+game.knight_moves(start_pos,end_pos)
