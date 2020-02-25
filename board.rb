@@ -3,6 +3,7 @@ class Board
   require_relative 'node.rb'
 
   def knight_moves(start_loc, end_loc)
+    puts "Invalid start or end point" unless (start_loc + end_loc).all? { |values| values.between?(0,7) }
     #create a pointer 'knight' to a node, nodes have children of all possible knight moves from their location
     knight = Node.new(start_loc)
     queue = []
