@@ -1,31 +1,20 @@
 class Board
-  attr_accessor :board, :knight
+  attr_accessor :board
   require_relative 'node.rb'
-  def initialize
-    @board = create_board
-    @knight = Node.new([0,0])
-  end
-
-  def create_board
-    new_board = Array.new(8) {Array.new(8)}
-    0.upto(7) do |x|
-      0.upto(7) do |y|
-        new_board[x][y] = [x,y]
-      end
-    end
-    new_board
-  end
 
   def knight_moves(start_loc, end_loc)
+    #create a pointer 'knight' to a node, nodes have children of all possible knight moves from their location
     knight = Node.new(start_loc)
-    
     queue = []
     locations = []
     visited = []
     queue << knight
+    #iterate through the possible moves, add subsequent moves to the queue, does not revisit locations
+    #stops when knight pointer reaches the end location
     until knight.loc == end_loc
       knight = queue.shift
       visited << knight.loc
+
       knight.moves.each do |move|
         next if visited.include? move
         new_location = Node.new(move)
@@ -33,10 +22,12 @@ class Board
         queue << new_location
       end
     end
+    #goes back through parent nodes to store the path in locations array
     until knight.parent.nil?
       locations << knight.loc
       knight = knight.parent
     end
+
     locations << start_loc
     locations.reverse
   end

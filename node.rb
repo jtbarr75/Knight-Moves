@@ -2,11 +2,13 @@ class Node
   attr_accessor :moves, :loc, :parent
 
   MOVES = [[2,1],[2,-1],[-2,1],[-2,1],[1,2],[-1,2],[1,-2],[-1,-2]]
+  
   def initialize(loc)
     @loc = loc
     @moves = create_moves
   end
 
+  #each node is initialized with all valid knight moves from their location
   def create_moves
     valid_moves = []
     MOVES.each do |move|
